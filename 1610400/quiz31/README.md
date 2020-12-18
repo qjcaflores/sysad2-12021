@@ -15,7 +15,7 @@ QUIZ 3.1 MANAGE INFORMATION SYSTEM SERVICES
 
 ----------------------
 
-- .gigignore
+- .gitgignore
   - ansible.cfg
   - vsftpd.conf
   - inventory
