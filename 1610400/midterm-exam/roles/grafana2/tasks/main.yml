@@ -1,0 +1,49 @@
+---
+# tasks file for grafana2
+- name: add grafana repository
+  copy:
+    src: grafana.repo
+    dest: /etc/yum.repos.d/
+
+- name: install grafna
+  yum:
+    name: grafana
+    state: latest
+    update_cache: yes
+
+- name: start grafana
+  service:
+    name: grafana-server
+    state: started
+
+- name: add prometheus repository
+  copy:
+    src: prometheus.repo
+    dest: /etc/yum.repos.d/
+
+- name: install prometheus
+  yum:
+    name: prometheus2
+    statE: latest
+    update_cache: yes
+
+- name: start prometheus
+  service:
+    name: prometheus
+    state: started
+
+- name: add influxdata repository
+  copy:
+    src: influxdb.repo
+    dest: /etc/yum.repo.d/
+
+- name: install influxdb
+  yum:
+    name: influxdb
+    state: latest
+    update_cache: yes
+
+- name: start influxdb
+  service:
+    name: influxdb
+    state: started

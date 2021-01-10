@@ -1,0 +1,9 @@
+[grafana]
+name = grafana
+baseurl = https://package.grafana.com/oss/rpm
+repo_gphcheck = 1
+enabled = 1
+gpgcheck = 1
+gpgkey = https://package.grafana.com/gpg.key
+sslverify = 1
+sslcacert = /etc/pki/tls/cert/ca-bundle.crt
