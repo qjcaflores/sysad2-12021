@@ -1,0 +1,20 @@
+prelim-exam: https://www.github.com/qjcaflores/sysad2-12021.git
+
+username: qjcaflores
+
+#FTP
+writeable_chroot: allow_writeable_chroot=YES
+
+frp_config:
+"allow_writeable_chroot=YES\npasv_min_port=30000\npasv_max_port=31000\nuserlist_file=/etc/vsftpd/user_list\nuser_list\nuserlist_deny=NO"
+
+ftp_debian:
+"pasv_enable=YES\npasv_min_port=10000\npasv_max_port=10100\nallow_writeable_chroot=YES\nssl_tlsv1=YES\nssl_nsslv2=NO\nssl_sslv3=NO"
+
+user: ftpuser
+
+ftp_pass: &1&Obad/qDTMAXkopq8asd#6kjjjjjlasd/&kpihkXZklKJHK/HdSE5io0DA8cwfXJ4eufX6Sb.plGZGYYi6MkV1Ks13$.xa/ad.5aKj
+
+#NAGIOS
+naguser_pass:&1&Pa8TVGYYuKRSFG5ZioKJKq&3dD7.h5KjAA/8jQkKTynSn18KKicTas58QWEVgxU79
+nagadmin_pass: strongestpass

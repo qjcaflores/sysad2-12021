@@ -1,0 +1,88 @@
+---
+- name: Install Dependencies on Debian
+  apt:
+    name:
+      - build-essential
+      - unzip
+      - openssl
+      - libssl-dev
+      - apache2
+      - php
+      - libgd-dev
+   state: latest
+   update_cache: yes
+
+- name: Creating nagios group
+  group:
+    name: nagios
+    state: present
+
+- name: Creating nagios group
+  group:
+    name: nagcmd
+    state: present
+
+- name: Creating nagios user
+  user:
+    name: nagios
+    shell: /bin/bash
+    group: nagios
+    password: '{{ naguser_pass }}'
+
+- name: Adding nagios user group for External Command
+  user:
+    name: nagios
+    group: nagcmd
+    append: yes
+
+- name: Adding www-data user group for External command
+  user:
+    name: www-data
+    group: nagcmd
+    append: yes
+
+- name: Creating downloads directory
+  file:
+    path: /downloads
+    state: directory
+    owner: nobody
+    group: nogroup
+
+- name: Downloading Nagios
+  get_url:
+    url: https://prodownloads.sourceforge.net/sourceforge/nagios/nagios-4.2.1.tar.gz
+    dest: /downloads
+
+- name: Downloading Plugins
+  get_url:
+    url: https://nagios-plugins.org/download/nagios-plugins2.3.3.tar.gz
+    dest: /downloads
+
+- name: Downloading Plugins
+  get_url:
+    url: https://nagios-plugins.org/download/nagios-plugins.2.3.3.tar.gz
+    dest: /downloads
+
+- name: Extracting Nagios Core
+  unarchive:
+    src: /downloads/nagios-4.2.1.tar.gz
+    dest: /downloads
+    remote_src: yes
+
+- name: Configuring Nagios Script
+  shell: ./configure --with-command-group=nagcmd --with-command-group-nagcmd--with-httpd_conf=/etc/apache2/sites-enabled/
+  args:
+    chdir: /downaloads/nagios-4.2.1
+
+- name: Installing Binaries
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: all
+
+- name: Enable Apache rewrite and cgi modules
+  shell: ' a2enmod rewrite cgi'
+
+- name: Start Nagios service
+  shell: '/etc/init.d/nagios start'
+
+# tasks file for debian/nagios

@@ -1,0 +1,27 @@
+---
+# tasks file for opensuse/nagios
+
+- name: Installing Dependencies on OpenSuse
+  zypper:
+    name:
+      - apache2
+      - gcc
+      - glibc
+      - gd
+      - per1
+      - php7
+      - apache2-mod_php7
+      - unzip
+    state: latest
+ 
+- name: Enabled php7
+  shell: 'a2enmod php7'
+
+- name: Restarting apache
+  service:
+    name: apache2
+    state: reloaded
+
+- name: Start Nagios service
+  shell: '/etc/init.d/nagios start'
+

@@ -1,0 +1,46 @@
+---
+# tasks file for opensuse/ftp
+
+- name: Install FTP server
+  zypper:
+    name: vsftpd
+    state: latest
+
+- name: Start Ftp server
+  service:
+    name: vsftpd
+    state: started
+    enabled: yes
+
+- name: Create Ftp user
+  user:
+    name: 'username'
+    password: 'password'
+
+- name: Deny user to access ssh
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "DenyUser ' user ' "
+  register: successfully_denied
+
+- name: Enable ls recurse
+  replace:
+    path: /etc/vsftpd.conf
+    regexp: '#ls_recurse_enabled=YES'
+    replace: 'ls_recurse_enabled=YES'
+
+- name: enable Ascii download
+  replace:
+    path: /etc/vsftpd.conf
+    regexp: '#ascii_download_enable=YES'
+    replace: 'ascii_download_enabled=YES'
+
+- name: Configure ftp file
+  lineinfile:
+    path: /etc/vsftpd.conf
+    line: local_root=/ftp
+
+- name: Restart Vsftpd
+  service:
+    name: vsftpd
+    state: restarted
